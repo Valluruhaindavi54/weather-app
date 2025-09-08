@@ -38,6 +38,10 @@ export default function ForecastPage() {
     if (page > 0) setPage(page - 1);
   };
 
+  const handleBack = () => {
+    window.history.back();
+  };
+
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Forecast</h2>
@@ -57,6 +61,9 @@ export default function ForecastPage() {
       </div>
 
       <div className={styles.buttons}>
+        <button onClick={handleBack} className={styles.navBtn}>
+          🔙 Back
+        </button>
         <button onClick={handlePrev} disabled={page === 0} className={styles.navBtn}>
           ⬅ Previous
         </button>

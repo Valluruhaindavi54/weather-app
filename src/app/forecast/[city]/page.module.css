@@ -64,3 +64,22 @@
   cursor: not-allowed;
   box-shadow: none;
 }
+.backBtn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #374151, #1f2937); /* dark gradient */
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  margin-bottom: 20px; /* spacing from grid/buttons */
+}
+
+.backBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+  background: linear-gradient(135deg, #1f2937, #374151); /* slightly reversed gradient */
+}
