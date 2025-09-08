@@ -1,0 +1,32 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #93c5fd, #1e3a8a);
+  padding: 24px;
+  color: white;
+}
+
+.backBtn {
+  padding: 10px 16px;
+  background: #111827;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.backBtn:hover {
+  background: #374151;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}

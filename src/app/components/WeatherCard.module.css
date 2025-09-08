@@ -1,0 +1,29 @@
+ .card {
+  background: var(--card-gradient-weather);
+  color: var(--text-color);
+  padding: 20px 25px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 10px 20px var(--shadow-light);
+  margin: 15px auto;
+  max-width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px var(--shadow-dark);
+}
+
+.cardTitle {
+  margin-bottom: 12px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.cardText {
+  margin: 6px 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
