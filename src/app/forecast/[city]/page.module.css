@@ -30,3 +30,37 @@
   gap: 16px;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
+/* Navigation buttons container */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* Next / Previous buttons */
+.navBtn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #60a5fa, #1e40af);
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.navBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #1e40af, #60a5fa);
+}
+
+.navBtn:disabled {
+  background: #4b5563;
+  color: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: none;
+}

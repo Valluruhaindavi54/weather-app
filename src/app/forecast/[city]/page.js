@@ -1,63 +1,72 @@
  "use client";
-
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
 import ForecastCard from "../../components/ForecastCard";
 import styles from "./page.module.css";
 
-const getCoordinates = async (city) => {
-  const res = await fetch(
-    `https://nominatim.openstreetmap.org/search?format=json&q=${city}`
-  );
-  const data = await res.json();
-  if (!data.length) throw new Error("City not found");
-  return { latitude: data[0].lat, longitude: data[0].lon };
-};
-
 export default function ForecastPage() {
-  const { city } = useParams();
-  const router = useRouter();
   const [forecast, setForecast] = useState([]);
+  const [page, setPage] = useState(0); // current page
+  const itemsPerPage = 5; // show 5 days per page
 
   useEffect(() => {
     const fetchForecast = async () => {
       try {
-        const { latitude, longitude } = await getCoordinates(city);
-
         const res = await fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto`
+          `https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto`
         );
         const data = await res.json();
-
-        if (data.daily) {
-          // Transform the data to array of objects for ForecastCard
-          const daily = data.daily.time.map((date, i) => ({
-            date,
-            temp_max: data.daily.temperature_2m_max[i],
-            temp_min: data.daily.temperature_2m_min[i],
-            precipitation: data.daily.precipitation_sum[i],
-          }));
-          setForecast(daily);
-        }
+        setForecast(data.daily); // array of daily data
       } catch (error) {
-        alert(error.message || "Error fetching forecast");
+        console.error("Error fetching forecast", error);
       }
     };
+
     fetchForecast();
-  }, [city]);
+  }, []);
+
+  // Calculate the slice of days to display
+  const startIndex = page * itemsPerPage;
+  const currentSlice = forecast.time?.slice(startIndex, startIndex + itemsPerPage) || [];
+
+  const handleNext = () => {
+    if (startIndex + itemsPerPage < forecast.time?.length) {
+      setPage(page + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (page > 0) setPage(page - 1);
+  };
 
   return (
     <div className={styles.container}>
-      <button onClick={() => router.push("/")} className={styles.backBtn}>
-        ⬅ Back
-      </button>
-
-      <h2 className={styles.title}>5-Day Forecast for {city}</h2>
+      <h2 className={styles.title}>Forecast</h2>
 
       <div className={styles.grid}>
-        {forecast.map((day) => (
-          <ForecastCard key={day.date} data={day} />
+        {currentSlice.map((date, idx) => (
+          <ForecastCard
+            key={date}
+            data={{
+              date,
+              temp_max: forecast.temperature_2m_max[idx + startIndex],
+              temp_min: forecast.temperature_2m_min[idx + startIndex],
+              precipitation: forecast.precipitation_sum[idx + startIndex],
+            }}
+          />
         ))}
+      </div>
+
+      <div className={styles.buttons}>
+        <button onClick={handlePrev} disabled={page === 0} className={styles.navBtn}>
+          ⬅ Previous
+        </button>
+        <button
+          onClick={handleNext}
+          disabled={startIndex + itemsPerPage >= forecast.time?.length}
+          className={styles.navBtn}
+        >
+          Next ➡
+        </button>
       </div>
     </div>
   );
